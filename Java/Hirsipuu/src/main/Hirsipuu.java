@@ -1,5 +1,9 @@
 package main;
 import fi.jyu.mit.ohj2.Syotto;
+import fi.jyu.mit.ohj2.Tiedosto;
+import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 /**
  * Ohjelmalla pelataan Hirsipuu-peli‰
@@ -105,12 +109,24 @@ public class Hirsipuu {
         return lkm;
     }
     
+    public static String arvo(String[] lista) {
+    	Random rand = new Random();
+    	int n = rand.nextInt(lista.length);
+    	return lista[n];
+    }
+    
     /**
      * @param args
      */
     public static void main(String[] args) {
         final int MAXVAARIA = 6;
-        String sana = "kissa"; // TODO  arvo t‰h‰n sana
+        String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
+        String sana = "kissa";
+        
+        //Scanner input = new Scanner(System.in);
+        
+        if(sanat != null) sana = arvo(sanat);
+        
         String vaaria = ""; // Sis‰lt‰‰ ne v‰‰r‰t arvaukset
         int oikeita = 0;
         StringBuilder tulos = luoTulosjono(sana);
