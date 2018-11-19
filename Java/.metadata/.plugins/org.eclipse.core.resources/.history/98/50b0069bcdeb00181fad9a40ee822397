@@ -123,6 +123,7 @@ public class Hirsipuu {
         String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
         String sana = "kissa";
         
+        //Scanner input = new Scanner(System.in);
         
         if(sanat != null) sana = arvo(sanat);
         
