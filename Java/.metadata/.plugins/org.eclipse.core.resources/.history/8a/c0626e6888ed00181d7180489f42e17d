@@ -1,0 +1,50 @@
+package main;
+
+import fi.jyu.mit.ohj2.Tiedosto;
+import java.util.Scanner;
+import java.util.*;
+
+
+public class SanaMuokkaus {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Scanner input = new Scanner(System.in);
+		ArrayList<String> uudet_sanat = new ArrayList<>();
+		String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
+		boolean kopio = true;
+		boolean valmis = false;
+			
+		while(!valmis) {
+			System.out.println("Kirjoita sana: (kirjoita !exit lopettaaksesi lis‰‰misen)");
+			String sana = input.next();
+			if(sana.equals("!exit")) {
+				Tiedosto.kirjoitaTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\testi.txt", uudet_sanat, true);
+				System.out.println("Kirjoittaminen onnistui");
+				break;
+			}
+			for(String s : sanat) {
+				if(!sana.equals(s)) {
+					kopio = false;
+				}
+				
+				
+			}
+			
+			if(!kopio) {
+				uudet_sanat.add(sana);
+				for(String s : uudet_sanat) {
+					System.out.println(s);
+				}
+				System.out.println("Lis‰‰minen onnistui.");
+			}
+			
+		}
+		
+		
+		
+		
+	}
+
+}

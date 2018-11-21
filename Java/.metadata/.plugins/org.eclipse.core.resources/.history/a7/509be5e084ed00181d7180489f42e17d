@@ -1,0 +1,15 @@
+package main;
+
+import fi.jyu.mit.ohj2.Tiedosto;
+
+
+public class testaukset {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
+		String sana = "kissa";
+		Tiedosto.kirjoitaTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\testi.txt", sanat, true);
+	}
+
+}

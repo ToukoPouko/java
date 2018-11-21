@@ -1,10 +1,7 @@
-kissa
 koira
-hevonen
-omena
-elokuva
+kissa
+puhelin
+kännykkä
 tietokone
-lentokone
-lisko
-lintu
-avaruusolento
+koira
+talvi

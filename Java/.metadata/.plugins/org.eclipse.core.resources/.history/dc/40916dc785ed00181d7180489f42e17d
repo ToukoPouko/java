@@ -1,0 +1,28 @@
+package main;
+
+import fi.jyu.mit.ohj2.Tiedosto;
+import java.util.Scanner;
+
+
+public class LisaaSanoja {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner input = new Scanner(System.in);
+		String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
+		String sana = input.next();
+		boolean kopio = true;
+		
+		for(String s : sanat) {
+			if(!sana.equals(s)) {
+				kopio = false;
+			}
+		}
+		
+		if(kopio) {
+			Tiedosto.kirjoitaTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt", sana, true);
+		}
+		
+	}
+
+}
