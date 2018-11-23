@@ -121,7 +121,7 @@ public class Hirsipuu {
     public static void main(String[] args) {
         final int MAXVAARIA = 6;
         String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
-        String sana = "kissa";
+        String sana = "";
         
         
         if(sanat != null) sana = arvo(sanat);
