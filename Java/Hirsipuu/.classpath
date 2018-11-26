@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="K:/LatauksetJuho/Ali.jar"/>
-	<classpathentry kind="lib" path="K:/LatauksetJuho/Graphics.jar"/>
+	<classpathentry kind="lib" path="C:/Users/oppilas/Downloads/Ali.jar"/>
+	<classpathentry kind="lib" path="C:/Users/oppilas/Downloads/eclipse-jee-mars-1-win32-x86_64.zip"/>
+	<classpathentry kind="lib" path="C:/Users/oppilas/Downloads/Graphics.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -3,18 +3,12 @@ import fi.jyu.mit.ohj2.Syotto;
 import fi.jyu.mit.ohj2.Tiedosto;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
-/**
- * Ohjelmalla pelataan Hirsipuu-peliä
- * 
- * @author vesal
- */
 public class Hirsipuu {
 
-    /**
-     * Tulostaa ohjelman logon
-     */
     public static void tulostaLogo() {
         System.out.println("Hirsipuu-peli");
         System.out.println("=============");
@@ -22,11 +16,6 @@ public class Hirsipuu {
     }
     
     
-    /**
-     * Luo sanasta jonon, jossa jokaisen merkin kohdalla on _
-     * @param sana josta jono luodaan
-     * @return sanan pituuden verran alleviivoja
-     */
     public static StringBuilder luoTulosjono(String sana) {
         StringBuilder tulos =  new StringBuilder(sana);
         for (int i=0; i<tulos.length(); i++) {
@@ -36,19 +25,6 @@ public class Hirsipuu {
     }
 
     
-    /**
-     * Palauttaa jono niin että joka toinen paikka on tyhjä
-     * Esim: k_ss_   => k _ s s _
-     * @param jono 
-     * @return jono harvana
-     * @example
-     * <pre name="test">
-     *   harvakseen("") === "";
-     *   harvakseen("k") === "k";
-     *   harvakseen("ki") === "k i";
-     *   harvakseen("kissa") === "k i s s a";
-     * </pre>
-     */
     public static String harvakseen(String jono) {
         StringBuilder tulos = new StringBuilder();
         String vali = "";
@@ -60,42 +36,11 @@ public class Hirsipuu {
     }
     
     
-    /**
-     * Palauttaa jonon niin että joka toinen paikka on tyhjä
-     * Esim: k_ss_   => k _ s s _
-     * @param jono 
-     * @return jono harvana
-     * @example
-     * <pre name="test">
-     *   harvakseen(new StringBuilder("kissa")) === "k i s s a";
-     * </pre>
-     */
     public static String harvakseen(StringBuilder jono) {
         return harvakseen(jono.toString());
     }
     
     
-    /**
-     * Tutkii montako kertaa merkki löytyy sanasta.  Samalla
-     * löytyneiden merkkien kohdalle tulos-jonoon merkitään ko. merkki.
-     * Jos merkki jo on tulos-jonossa, se tulkitaan vääräksi.
-     * @param sana   mistä merkkiä etsitään
-     * @param merkki etsittävä kirjain
-     * @param tulos  jono johon oikeat merkitään
-     * @return oikeiden merkkien määrä
-     * @example
-     * <pre name="test">
-     *   String sana = "kissa";
-     *   StringBuilder tulos = luoTulosjono(sana);
-     *   tutkiOikeat(sana,'z',tulos) === 0;
-     *   tutkiOikeat(sana,'k',tulos) === 1;  
-     *   tulos.toString() === "k____";
-     *   tutkiOikeat(sana,'k',tulos) === 0;  
-     *   tulos.toString() === "k____";
-     *   tutkiOikeat(sana,'i',tulos) === 1;  
-     *   tulos.toString() === "ki___";
-     * </pre>
-     */
     public static int tutkiOikeat(String sana,char merkki, StringBuilder tulos) {
         int pituus = Math.min(sana.length(), tulos.length());
         int lkm = 0;
@@ -115,11 +60,90 @@ public class Hirsipuu {
     	return lista[n];
     }
     
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        final int MAXVAARIA = 6;
+    
+    public static void lisaa() {
+		boolean kopio = true;
+		Scanner input = new Scanner(System.in);
+		ArrayList<String> uudet_sanat = new ArrayList<>();
+		String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
+		
+		while(true) {
+			System.out.println("Kirjoita sana: (kirjoita !lopeta lopettaaksesi lisäämisen)");
+			String sana = input.next();
+			if(sana.equals("!lopeta")) {
+				Tiedosto.kirjoitaTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt", uudet_sanat, true);
+				System.out.println("Kirjoittaminen onnistui");
+				break;
+			}
+			
+			for(String s : sanat) {
+				if(sana.equals(s)) {
+					kopio = true;
+					System.out.println("Tämä sana on jo lisätty");
+					break;
+				}
+				else {
+					kopio = false;
+				}
+			}
+			
+			if(!kopio) {
+				uudet_sanat.add(sana);
+				System.out.println("Lisääminen onnistui.");
+				kopio = false;
+			}
+			
+		}
+	}
+	
+	public static void poista() {
+		Scanner input = new Scanner(System.in);
+		String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
+		ArrayList<String> sanalista = new ArrayList<>();
+		sanalista.addAll(Arrays.asList(sanat));
+		
+		System.out.println("Kirjoita sana, jonka haluat poistaa listasta: ");
+		String sana = input.next();
+		try {
+			sanalista.remove(sana);
+		}
+		catch(Exception e) {
+			System.out.println("Sanaa ei löydetty listasta. ");
+		}
+		
+		System.out.print("Poistaminen onnistui.");
+		Tiedosto.kirjoitaTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt", sanalista, false);
+	}
+	
+	public static void haku() {
+		Scanner input = new Scanner(System.in);
+		String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
+		boolean find = false;
+		
+		System.out.println("Kirjoita sana, jonka haluat etsiä: ");
+		String sana = input.next();
+		
+		for(String s : sanat) {
+			if(sana.equals(s)) {
+				System.out.println("Sana " + sana + " löytyy listasta.");
+				find = true;
+				break;
+			}
+			else if(!sana.equals(s)) {
+				find = false;
+			}
+		}
+		
+		if(!find) {
+			System.out.print("Sanaa " + sana + " ei löytynyt listasta");
+		}
+		
+		
+	}
+    
+    
+    public static void peli() {
+    	final int MAXVAARIA = 6;
         String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
         String sana = "";
         
@@ -159,5 +183,46 @@ public class Hirsipuu {
 
         System.out.println("Sana: " + sana);
     }
+
     
+    
+    
+    public static void main(String[] args) {
+    	boolean kopio = true;
+		Scanner input = new Scanner(System.in);
+		ArrayList<String> uudet_sanat = new ArrayList<>();
+		
+		
+		while(true) {
+			String[] sanat = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt");
+			System.out.println("\n1. Pelaa");
+			System.out.println("2. Lisää sanoja");
+			System.out.println("3. Näytä sanat");
+			System.out.println("4. Poista sana");
+			System.out.println("5. Hae sanaa");
+			int user = input.nextInt();
+				
+			switch(user) {
+				case 1:
+					peli();
+					break;
+				case 2:
+					lisaa();
+					break;
+				case 3:
+					System.out.println("--------------------------------------------");
+					for(String sana : sanat) {
+						System.out.println(sana);
+					}
+					System.out.println("--------------------------------------------");
+					break;
+				case 4:
+					poista();
+					break;
+				case 5:
+					haku();
+					break;
+			}
+		}
+    }
 }
