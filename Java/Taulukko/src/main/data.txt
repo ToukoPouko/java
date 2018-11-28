@@ -1,3 +1,5 @@
-juho,17
 pertti,20
 veli,10
+erno,9
+juho,17
+anna,17

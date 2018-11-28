@@ -56,8 +56,6 @@ public class SanaLista {
 		catch(Exception e) {
 			System.out.println("Sanaa ei löydetty listasta. ");
 		}
-		
-		System.out.print("Poistaminen onnistui.");
 		Tiedosto.kirjoitaTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Hirsipuu\\src\\main\\sanat.txt", sanalista, false);
 	}
 	
