@@ -2,4 +2,8 @@ pertti,20
 veli,10
 erno,9
 juho,17
-anna,17
+Laura,20
+Juuso,20
+Hanna,20
+Minna,42
+anna,25
