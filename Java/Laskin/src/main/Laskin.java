@@ -35,6 +35,7 @@ public class Laskin {
 						System.out.println("Ei mahdollinen laskutoimitus (" + num1 + operation + num2 + ")");
 					}
 			}
+			System.out.println("-------------------");
 		}
 		
 	}
