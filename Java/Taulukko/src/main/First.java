@@ -4,17 +4,21 @@ import fi.jyu.mit.ohj2.Tiedosto;
 
 public class First {
 
+	public static String path = "C:\\atk_vahakangas\\ohjelmointi\\Java\\Taulukko\\src\\main\\data.txt";	
+	
 	public static void add() {
 		ArrayList<String> list = new ArrayList<String>();
 		Scanner input = new Scanner(System.in);
+		
 		while(true) {
 			//ArrayList<> person = new ArrayList<String>();
 			
 			System.out.println("Anna nimi: ");
 			String name = input.next();
+			name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
 			
 			if(name.equals("!lopeta")) {
-				Tiedosto.kirjoitaTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Taulukko\\src\\main\\data.txt", list, true);
+				Tiedosto.kirjoitaTiedosto(path, list, true);
 				System.out.println("Kirjoittaminen onnistui.");
 				break;
 			}
@@ -32,7 +36,7 @@ public class First {
 	
 	public static void delete() {
 		Scanner input = new Scanner(System.in);
-		String[] lines = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Taulukko\\src\\main\\data.txt");
+		String[] lines = Tiedosto.lueTiedosto(path);
 		ArrayList<String> newList = new ArrayList<>();
 		newList.addAll(Arrays.asList(lines));
 		
@@ -47,13 +51,13 @@ public class First {
 			System.out.println("Henkilöä ei löydy listasta. ");
 		}
 		
-		Tiedosto.kirjoitaTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Taulukko\\src\\main\\data.txt", newList, false);
+		Tiedosto.kirjoitaTiedosto(path, newList, false);
 	}
 	
 	
 	public static void search() {
 		Scanner input = new Scanner(System.in);
-		String[] lines = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Taulukko\\src\\main\\data.txt");
+		String[] lines = Tiedosto.lueTiedosto(path);
 		
 		System.out.println("1. Nimen mukaan");
 		System.out.println("2. Iän mukaan");
@@ -83,12 +87,41 @@ public class First {
 	
 	public static void sorting() {
 		Scanner input = new Scanner(System.in);
-		String[] lines = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Taulukko\\src\\main\\data.txt");
+		String[] lines = Tiedosto.lueTiedosto(path);
+		Integer[] ages = new Integer[lines.length];
+		System.out.println("1. Nimen mukaan");
+		System.out.println("2. Iän mukaan");
+		ArrayList<String> newlist = new ArrayList<>();
+		newlist.addAll(Arrays.asList(lines));
 		
-		java.util.Collections.sort(Arrays.asList(lines));
-		for(String s : lines) {
-			System.out.println(s);
+		
+		Integer user = input.nextInt();
+		
+		if(user == 1) {
+			java.util.Collections.sort(newlist);
 		}
+		else if(user == 2) {
+			for(int i = 0; i < newlist.size(); i++) {
+				for(int j = 1; j < newlist.size() - i;j++) {
+					String temp1 = newlist.get(j - 1);
+					String temp2 = newlist.get(j);
+					if(Integer.parseInt(temp1.substring(temp1.indexOf(",")+1, temp1.length())) > Integer.parseInt(temp2.substring(temp2.indexOf(",")+1, temp2.length()))) {
+						String temp = newlist.get(j - 1);
+						newlist.set(j - 1, newlist.get(j));
+						newlist.set(j, temp);
+					}
+				}
+			}
+			
+		}
+		
+		System.out.println("-------------------------------");
+		for(String line : newlist) {
+			System.out.println(line);
+		}
+		System.out.println("-------------------------------");
+		Tiedosto.kirjoitaTiedosto(path, newlist);
+		
 	}
 	
 	
@@ -110,7 +143,7 @@ public class First {
 					break;
 				case 2:
 					System.out.println("-------------------------------");
-					String[] lines = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Taulukko\\src\\main\\data.txt");
+					String[] lines = Tiedosto.lueTiedosto(path);
 					for(String line : lines) {
 						System.out.println(line);
 					}
@@ -126,7 +159,7 @@ public class First {
 					sorting();
 					break;
 				case 6:
-					String[] lines2 = Tiedosto.lueTiedosto("C:\\atk_vahakangas\\ohjelmointi\\Java\\Taulukko\\src\\main\\data.txt");
+					String[] lines2 = Tiedosto.lueTiedosto(path);
 					System.out.println("Tiedostossa on tällä hetkellä " + lines2.length + " henkilöä");
 					break;
 			}
