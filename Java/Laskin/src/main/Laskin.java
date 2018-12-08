@@ -12,10 +12,8 @@ public class Laskin extends JFrame{
 	public static double num1, num2;
 	public int count = 0;
 	
-	// TODO: Korjaa loputon 0 ongelma
+	// TODO: Lisää potenssi ja neliöjuuri
 	// Lopputuloksen pyöristys
-	
-	
 	
 	public Laskin() {
 		JFrame guiFrame = new JFrame();
@@ -28,6 +26,7 @@ public class Laskin extends JFrame{
 		operators[1] = "-";
 		operators[2] = "/";
 		operators[3] = "*";
+		operators[4] = "^";
 		Dimension dim = new Dimension(75, 20);
 		
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,7 +36,7 @@ public class Laskin extends JFrame{
 		guiFrame.setVisible(true);
 		guiFrame.setResizable(false);
 		
-		JLabel lblResult = new JLabel(" ");
+		JLabel lblResult = new JLabel("0");
 		JButton btn0 = new JButton("0");
 		JButton btn1 = new JButton("1");
 		JButton btn2 = new JButton("2");
@@ -50,13 +49,18 @@ public class Laskin extends JFrame{
 		JButton btn9 = new JButton("9");
 		JButton btnEquals = new JButton("=");
 		JButton btnDot = new JButton(".");
-		JButton btnClear = new JButton("CE");
+		JButton btnClear = new JButton("AC");
 		JButton btnPlus = new JButton("+");
 		JButton btnMinus = new JButton("-");
 		JButton btnDiv = new JButton("/");
 		JButton btnMult = new JButton("*");
+		JButton btnBack = new JButton("C");
+		JButton btnPot = new JButton("x^2");
+		JButton btnSqrt = new JButton("sqrt");
+		JButton btnEmpty0 = new JButton(" ");
+		JButton btnEmpty1 = new JButton(" ");
 		
-		//lblResult.setPreferredSize(dim);
+		lblResult.setPreferredSize(dim);
 		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridwidth = 3;
@@ -64,11 +68,14 @@ public class Laskin extends JFrame{
 		gbc.gridy = 0;
 		panel.add(lblResult, gbc);
 		
-		
 		gbc.gridwidth = 1;
 		gbc.gridx = 3;
 		gbc.gridy = 0;
 		panel.add(btnClear, gbc);
+		
+		gbc.gridx = 4;
+		gbc.gridy = 0;
+		panel.add(btnBack, gbc);
 		
 		//-----------------------------------------------------------
 
@@ -84,10 +91,13 @@ public class Laskin extends JFrame{
 		gbc.gridy = 1;
 		panel.add(btn9, gbc);
 		
-		
 		gbc.gridx = 3;
 		gbc.gridy = 1;
 		panel.add(btnDiv, gbc);
+		
+		gbc.gridx = 4;
+		gbc.gridy = 1;
+		panel.add(btnPot, gbc);
 		
 		//-----------------------------------------------------------
 		
@@ -103,10 +113,13 @@ public class Laskin extends JFrame{
 		gbc.gridy = 2;
 		panel.add(btn6, gbc);
 		
-	
 		gbc.gridx = 3;
 		gbc.gridy = 2;
 		panel.add(btnMult, gbc);
+		
+		gbc.gridx = 4;
+		gbc.gridy = 2;
+		panel.add(btnSqrt, gbc);
 		
 		//-----------------------------------------------------------
 		
@@ -122,11 +135,13 @@ public class Laskin extends JFrame{
 		gbc.gridy = 3;
 		panel.add(btn3, gbc);
 				
-
 		gbc.gridx = 3;
 		gbc.gridy = 3;
 		panel.add(btnMinus, gbc);
 		
+		gbc.gridx = 4;
+		gbc.gridy = 3;
+		panel.add(btnEmpty0, gbc);
 		//-----------------------------------------------------------
 		
 		gbc.gridx = 0;
@@ -141,11 +156,13 @@ public class Laskin extends JFrame{
 		gbc.gridy = 4;
 		panel.add(btnEquals, gbc);
 						
-
 		gbc.gridx = 3;
 		gbc.gridy = 4;
 		panel.add(btnPlus, gbc);
 		
+		gbc.gridx = 4;
+		gbc.gridy = 4;
+		panel.add(btnEmpty1, gbc);
 		
 		guiFrame.add(panel);
 		
@@ -161,6 +178,7 @@ public class Laskin extends JFrame{
 				}
 				else if(lblResult.getText().substring(0, 1) != "0") {
 					lblResult.setText(lblResult.getText() + "0");
+					
 				}
 				
 				
@@ -299,7 +317,24 @@ public class Laskin extends JFrame{
 				count = 0;
 			}
 			
+		});		
+		btnPot.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				for(String s : operators) {
+					if(lblResult.getText().indexOf(s) != -1) {
+						return;
+					}
+				}
+				
+				lblResult.setText(lblResult.getText() + "^");
+				currentOperator = '^';
+				count = 0;
+			}
+			
 		});
+		
 		btnDot.addActionListener(new ActionListener() {
 			
 			@Override
@@ -319,7 +354,8 @@ public class Laskin extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				lblResult.setText("0");
-					
+				currentOperator = ' ';
+				count = 0;
 			}
 			
 		});
@@ -348,6 +384,7 @@ public class Laskin extends JFrame{
 				num1 = 0;
 				num2 = 0;
 				currentOperator = ' ';
+				count = 0;
 			}
 			
 		});
