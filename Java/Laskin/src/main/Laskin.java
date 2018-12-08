@@ -4,6 +4,7 @@ import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.event.ActionListener;
 
 public class Laskin extends JFrame{
 	
@@ -12,15 +13,22 @@ public class Laskin extends JFrame{
 		GridBagLayout layout = new GridBagLayout();
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
+		double num1, num2;
+		String[] operators = new String[4];
+		operators[0] = "+";
+		operators[1] = "-";
+		operators[2] = "/";
+		operators[3] = "*";
+		char currentOperator;
 		
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		guiFrame.setTitle("Laskin");
-		guiFrame.setSize(200, 200);
+		guiFrame.setSize(400, 400);
 		guiFrame.setLayout(layout);
 		guiFrame.setVisible(true);
 		guiFrame.setResizable(false);
 		
-		JLabel lblResult = new JLabel("test");
+		JLabel lblResult = new JLabel("0");
 		JButton btn0 = new JButton("0");
 		JButton btn1 = new JButton("1");
 		JButton btn2 = new JButton("2");
@@ -129,36 +137,169 @@ public class Laskin extends JFrame{
 		
 		
 		guiFrame.add(panel);
-		//guiFrame.getContentPane().setLayout(layout);
 		
-		/*guiFrame.add(lblResult);
-		guiFrame.add(btnClear);
-		guiFrame.add(btnPlus);
-		guiFrame.add(btnEmpty);
-		guiFrame.add(btn7);
-		guiFrame.add(btn8);
-		guiFrame.add(btn9);
-		guiFrame.add(btnMinus);
-		guiFrame.add(btn4);
-		guiFrame.add(btn5);
-		guiFrame.add(btn6);
-		guiFrame.add(btn1);
-		guiFrame.add(btn2);
-		guiFrame.add(btn3);
-		guiFrame.add(btn0);
-		guiFrame.add(btnDot);
-		guiFrame.add(btnEquals);*/
+		// Adding action listeners
 		
-		/*layout.addLayoutComponent("0", btn0);
-		layout.addLayoutComponent("1", btn1);
-		layout.addLayoutComponent("2", btn2);
-		layout.addLayoutComponent("3", btn3);
-		layout.addLayoutComponent("4", btn4);
-		layout.addLayoutComponent("5", btn5);
-		layout.addLayoutComponent("6", btn6);
-		layout.addLayoutComponent("7", btn7);
-		layout.addLayoutComponent("8", btn8);
-		layout.addLayoutComponent("9", btn9);*/
+		btn0.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + "0");
+			}
+			
+		});
+		btn1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + "1");
+			}
+			
+		});
+		btn2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + "2");
+			}
+			
+		});
+		btn3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + "3");
+			}
+			
+		});
+		btn4.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + "4");
+			}
+			
+		});
+		btn5.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + "5");
+			}
+			
+		});
+		btn6.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + "6");
+			}
+			
+		});
+		btn7.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + "7");
+			}
+			
+		});
+		btn8.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + "8");
+			}
+			
+		});
+		btn9.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + "9");
+			}
+			
+		});
+		btnPlus.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				for(String s : operators) {
+					if(lblResult.getText().indexOf(s) != -1) {
+						return;
+					}			
+				}
+				lblResult.setText(lblResult.getText() + "+");
+				
+			}
+			
+		});
+		btnMinus.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				for(String s : operators) {
+					if(lblResult.getText().indexOf(s) != -1) {
+						return;
+					}
+				}
+				lblResult.setText(lblResult.getText() + "-");
+			}
+			
+		});
+		btnDiv.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				for(String s : operators) {
+					if(lblResult.getText().indexOf(s) != -1) {
+						return;
+					}
+				}
+				lblResult.setText(lblResult.getText() + "/");
+			}
+			
+		});
+		btnMult.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				for(String s : operators) {
+					if(lblResult.getText().indexOf(s) != -1) {
+						return;
+					}
+				}
+				
+				lblResult.setText(lblResult.getText() + "*");
+			}
+			
+		});
+		btnDot.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(lblResult.getText().indexOf(",") == -1) {
+					lblResult.setText(lblResult.getText() + ",");
+				}				
+			}
+			
+		});
+		btnClear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText("0");
+			}
+			
+		});
+		btnEquals.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+								
+			}
+			
+		});
 		
 	}
 	
