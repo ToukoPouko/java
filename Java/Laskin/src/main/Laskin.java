@@ -8,27 +8,36 @@ import java.awt.event.ActionListener;
 
 public class Laskin extends JFrame{
 	
+	public static char currentOperator = ' ';
+	public static double num1, num2;
+	public int count = 0;
+	
+	// TODO: Korjaa loputon 0 ongelma
+	// Lopputuloksen pyöristys
+	
+	
+	
 	public Laskin() {
 		JFrame guiFrame = new JFrame();
 		GridBagLayout layout = new GridBagLayout();
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
-		double num1, num2;
+		//double num1, num2;
 		String[] operators = new String[4];
 		operators[0] = "+";
 		operators[1] = "-";
 		operators[2] = "/";
 		operators[3] = "*";
-		char currentOperator;
+		Dimension dim = new Dimension(75, 20);
 		
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		guiFrame.setTitle("Laskin");
-		guiFrame.setSize(400, 400);
+		guiFrame.setSize(300, 300);
 		guiFrame.setLayout(layout);
 		guiFrame.setVisible(true);
 		guiFrame.setResizable(false);
 		
-		JLabel lblResult = new JLabel("0");
+		JLabel lblResult = new JLabel(" ");
 		JButton btn0 = new JButton("0");
 		JButton btn1 = new JButton("1");
 		JButton btn2 = new JButton("2");
@@ -40,21 +49,23 @@ public class Laskin extends JFrame{
 		JButton btn8 = new JButton("8");
 		JButton btn9 = new JButton("9");
 		JButton btnEquals = new JButton("=");
-		JButton btnDot = new JButton(",");
+		JButton btnDot = new JButton(".");
 		JButton btnClear = new JButton("CE");
 		JButton btnPlus = new JButton("+");
 		JButton btnMinus = new JButton("-");
 		JButton btnDiv = new JButton("/");
 		JButton btnMult = new JButton("*");
-		JButton btnEmpty = new JButton("");
 		
+		//lblResult.setPreferredSize(dim);
 		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridwidth = 3;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		panel.add(lblResult, gbc);
 		
-
+		
+		gbc.gridwidth = 1;
 		gbc.gridx = 3;
 		gbc.gridy = 0;
 		panel.add(btnClear, gbc);
@@ -138,13 +149,21 @@ public class Laskin extends JFrame{
 		
 		guiFrame.add(panel);
 		
+		
 		// Adding action listeners
 		
 		btn0.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				lblResult.setText(lblResult.getText() + "0");
+				if(lblResult.getText().substring(0, 1) == "0." ) {
+					lblResult.setText(lblResult.getText() + "0");
+				}
+				else if(lblResult.getText().substring(0, 1) != "0") {
+					lblResult.setText(lblResult.getText() + "0");
+				}
+				
+				
 			}
 			
 		});
@@ -230,7 +249,8 @@ public class Laskin extends JFrame{
 					}			
 				}
 				lblResult.setText(lblResult.getText() + "+");
-				
+				currentOperator = '+';
+				count = 0;
 			}
 			
 		});
@@ -244,6 +264,8 @@ public class Laskin extends JFrame{
 					}
 				}
 				lblResult.setText(lblResult.getText() + "-");
+				currentOperator = '-';
+				count = 0;
 			}
 			
 		});
@@ -257,6 +279,8 @@ public class Laskin extends JFrame{
 					}
 				}
 				lblResult.setText(lblResult.getText() + "/");
+				currentOperator = '/';
+				count = 0;
 			}
 			
 		});
@@ -271,6 +295,8 @@ public class Laskin extends JFrame{
 				}
 				
 				lblResult.setText(lblResult.getText() + "*");
+				currentOperator = '*';
+				count = 0;
 			}
 			
 		});
@@ -278,8 +304,12 @@ public class Laskin extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(lblResult.getText().indexOf(",") == -1) {
-					lblResult.setText(lblResult.getText() + ",");
+				
+				if(lblResult.getText().indexOf(".") == -1 || currentOperator != ' ') {
+					if(count < 1) {
+						lblResult.setText(lblResult.getText() + ".");
+						count += 1;
+					}		
 				}				
 			}
 			
@@ -289,6 +319,7 @@ public class Laskin extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				lblResult.setText("0");
+					
 			}
 			
 		});
@@ -296,7 +327,27 @@ public class Laskin extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-								
+				int i = lblResult.getText().indexOf(currentOperator);
+				num1 = Double.parseDouble(lblResult.getText().substring(0, i));
+				num2 = Double.parseDouble(lblResult.getText().substring(i + 1, lblResult.getText().length()));
+				switch(currentOperator) {
+					case '+':
+						lblResult.setText(Double.toString(num1 + num2));
+						break;
+					case '-':
+						lblResult.setText(Double.toString(num1 - num2));
+						break;
+					case '/':
+						lblResult.setText(Double.toString(num1 / num2));
+						break;
+					case '*':
+						lblResult.setText(Double.toString(num1 * num2));
+						break;
+				}
+				i = 0;
+				num1 = 0;
+				num2 = 0;
+				currentOperator = ' ';
 			}
 			
 		});
@@ -305,38 +356,7 @@ public class Laskin extends JFrame{
 	
 	public static void main(String[] args) {
 		new Laskin();
-		/*Scanner input = new Scanner(System.in);
-		System.out.println("Laskin");
-		System.out.println("----------------");
-		
-		while(true) {
-			System.out.println("Ensimmäinen numero: ");
-			double num1 = input.nextDouble();
-			System.out.println("Toinen numero: ");
-			double num2 = input.nextDouble();
-			System.out.println("Laskutoimitus (+, -, *, /): ");
-			String operation = input.next();
-			switch(operation) {
-				case "+":
-					System.out.println(num1 + " + " + num2 + " = " + (num1 + num2));
-					break;
-				case "-":
-					System.out.println(num1 + " - " + num2 + " = " + (num1 - num2));
-					break;
-				case "*":
-					System.out.println(num1 + " * " + num2 + " = " + (num1 * num2));
-					break;
-				case "/":
-					try {
-						System.out.println(num1 + " / " + num2 + " = " + (num1 / num2));
-					}
-					catch(Exception e) {
-						System.out.println("Ei mahdollinen laskutoimitus (" + num1 + operation + num2 + ")");
-					}
-			}
-			System.out.println("-------------------");
-		}*/
 		
 	}
-
+	
 }
