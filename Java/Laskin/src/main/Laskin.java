@@ -14,6 +14,8 @@ public class Laskin extends JFrame{
 	
 	// TODO: Lisää potenssi ja neliöjuuri
 	// Lopputuloksen pyöristys
+	// Parannuksia: 
+	// Kun painaa jotain laskutoimitusta, tyhjennä label ja tallenna num1 siinä vaiheessa
 	
 	public Laskin() {
 		JFrame guiFrame = new JFrame();
