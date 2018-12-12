@@ -11,12 +11,13 @@ public class Laskin extends JFrame implements KeyListener{
 	public static String currentOperator = " ";
 	public static double num1, num2;
 	public int count = 0;
+	public static String currentUnit = "DEG";
 	
-	// TODO: Lopputuloksen pyöristys
-	// opButtonien btnEquals.doClick() parantelua
-	// Erroreiden käsittely
+	// TODO: 
+	// Korjaa yksikkö nappi
 	
 	JLabel lblResult = new JLabel("");
+	JButton btnUnit = new JButton("DEG");
 	JButton btn0 = new JButton("0");
 	JButton btn1 = new JButton("1");
 	JButton btn2 = new JButton("2");
@@ -36,7 +37,9 @@ public class Laskin extends JFrame implements KeyListener{
 	JButton btnMult = new JButton("*");
 	JButton btnBack = new JButton("C");
 	JButton btnPot = new JButton("^");
-	JButton btnSqrt = new JButton("s");
+	JButton btnSqrt = new JButton("sqrt");
+	JButton btnSin = new JButton("sin");
+	JButton btnCos = new JButton("cos");
 	JButton btnEmpty0 = new JButton(" ");
 	JButton btnEmpty1 = new JButton(" ");
 	
@@ -46,13 +49,15 @@ public class Laskin extends JFrame implements KeyListener{
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
 		//double num1, num2;
-		String[] operators = new String[6];
+		String[] operators = new String[8];
 		operators[0] = "+";
 		operators[1] = "-";
 		operators[2] = "/";
 		operators[3] = "*";
 		operators[4] = "^";
-		operators[5] = "s";
+		operators[5] = "sqrt";
+		operators[6] = "sin";
+		operators[7] = "cos";
 		Dimension dim = new Dimension(75, 20);
 		
 		ArrayList<JButton> buttons = new ArrayList<JButton>();
@@ -84,7 +89,10 @@ public class Laskin extends JFrame implements KeyListener{
 		opButtons.add(btnMult);
 		opButtons.add(btnDiv);
 		opButtons.add(btnPot);
-		opButtons.add(btnSqrt);
+		//opButtons.add(btnSqrt);
+		opButtons.add(btnSin);
+		opButtons.add(btnCos);
+
 		
 		for(JButton btn : numButtons) {
 			buttons.add(btn);
@@ -99,6 +107,7 @@ public class Laskin extends JFrame implements KeyListener{
 		buttons.add(btnEmpty1);
 		buttons.add(btn0);
 		buttons.add(btnEquals);
+		
 		
 		for(JButton btn : buttons) {
 			btn.setFocusable(false);
@@ -186,7 +195,8 @@ public class Laskin extends JFrame implements KeyListener{
 		
 		gbc.gridx = 4;
 		gbc.gridy = 3;
-		panel.add(btnEmpty0, gbc);
+		panel.add(btnSin, gbc);
+		
 		//-----------------------------------------------------------
 		
 		gbc.gridx = 0;
@@ -207,7 +217,15 @@ public class Laskin extends JFrame implements KeyListener{
 		
 		gbc.gridx = 4;
 		gbc.gridy = 4;
-		panel.add(btnEmpty1, gbc);
+		panel.add(btnCos, gbc);
+		
+		//-----------------------------------------------------------
+		
+		gbc.gridx = 4;
+		gbc.gridy = 5;
+		panel.add(btnUnit, gbc);
+				
+		
 		
 		guiFrame.add(panel);
 		
@@ -252,17 +270,33 @@ public class Laskin extends JFrame implements KeyListener{
 					for(String s : operators) {
 						if(lblResult.getText().indexOf(s) != -1) {
 							if(lblResult.getText().substring(lblResult.getText().indexOf(s) + 1) != "") {
-								btnEquals.doClick();
+								//btnEquals.doClick();
 							}
 							return;
 						}			
 					}
-					lblResult.setText(lblResult.getText() + btn.getText());
-					currentOperator = btn.getText();
-					count = 0;
+					if(lblResult.getText().length() != 0) {
+						lblResult.setText(lblResult.getText() + btn.getText());
+						currentOperator = btn.getText();
+						count = 0;
+					}
+					
 				}
 			});
 		}
+		
+		btnUnit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(currentUnit.equals("DEG")) {
+					currentUnit = "RAD";
+					btnUnit.setText("RAD");
+				}
+				else if(currentUnit.equals("RAD")) {
+					currentUnit = "DEG";
+					btnUnit.setText("DEG");
+				}
+			}
+		});
 		
 		btnSqrt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -271,9 +305,41 @@ public class Laskin extends JFrame implements KeyListener{
 						return;
 					}			
 				}
-				lblResult.setText("sqrt(" + lblResult.getText() + ")");
-				currentOperator = "s";
-				count = 0;
+				if(lblResult.getText().length() != 0) {
+					lblResult.setText("sqrt(" + lblResult.getText() + ")");
+					currentOperator = "sqrt";
+					count = 0;
+				}	
+			}
+		});
+		
+		btnSin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for(String s : operators) {
+					if(lblResult.getText().indexOf(s) != -1) {
+						return;
+					}			
+				}
+				if(lblResult.getText().length() != 0) {
+					lblResult.setText("sin(" + lblResult.getText() + ")");
+					currentOperator = "sin";
+					count = 0;
+				}	
+			}
+		});
+		
+		btnCos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for(String s : operators) {
+					if(lblResult.getText().indexOf(s) != -1) {
+						return;
+					}			
+				}
+				if(lblResult.getText().length() != 0) {
+					lblResult.setText("cos(" + lblResult.getText() + ")");
+					currentOperator = "cos";
+					count = 0;
+				}	
 			}
 		});
 		
@@ -305,7 +371,10 @@ public class Laskin extends JFrame implements KeyListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				lblResult.setText(lblResult.getText().substring(0, lblResult.getText().length() - 1));
+				if(lblResult.getText().length() != 0) {
+					lblResult.setText(lblResult.getText().substring(0, lblResult.getText().length() - 1));
+				}
+				
 			}
 			
 		});
@@ -315,40 +384,74 @@ public class Laskin extends JFrame implements KeyListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int i = lblResult.getText().indexOf(currentOperator);
-				if(currentOperator != "s") {
-					num1 = Double.parseDouble(lblResult.getText().substring(0, i));
-					num2 = Double.parseDouble(lblResult.getText().substring(i + 1, lblResult.getText().length()));
+				
+				try {
+					if(lblResult.getText().length() == 0) {
+						return;
+					}
+					
+					int i = lblResult.getText().indexOf(currentOperator);
+					if(currentOperator != "sqrt" ^ currentOperator != "sin" ^ currentOperator != "cos") {
+						num1 = Double.parseDouble(lblResult.getText().substring(0, i));
+						num2 = Double.parseDouble(lblResult.getText().substring(i + 1, lblResult.getText().length()));
+					}
+					System.out.println(currentUnit);
+					switch(currentOperator) {
+						case "+":
+							lblResult.setText(Double.toString(num1 + num2));
+							break;
+						case "-":
+							lblResult.setText(Double.toString(num1 - num2));
+							break;
+						case "/":
+							lblResult.setText(Double.toString(num1 / num2));
+							break;
+						case "*":
+							lblResult.setText(Double.toString(num1 * num2));
+							break;
+						case "^":
+							lblResult.setText(Double.toString(Math.pow(num1, num2)));
+							break;
+						case "sqrt":
+							int j = lblResult.getText().indexOf("(");
+							int a = lblResult.getText().indexOf(")");
+							num1 = Double.parseDouble(lblResult.getText().substring(j + 1, a));
+							lblResult.setText(Double.toString(Math.sqrt(num1)));
+							break;
+						case "sin":
+							j = lblResult.getText().indexOf("(");
+							a = lblResult.getText().indexOf(")");
+							num1 = Double.parseDouble(lblResult.getText().substring(j + 1, a));
+							if(currentUnit.equals("DEG")) {
+								lblResult.setText(Double.toString(Math.sin(num1)));
+							}
+							else if(currentUnit.equals("RAD")) {
+								lblResult.setText(Double.toString(Math.sin(Math.toRadians(num1))));
+							}
+								
+							break;
+						case "cos":
+							j = lblResult.getText().indexOf("(");
+							a = lblResult.getText().indexOf(")");
+							num1 = Double.parseDouble(lblResult.getText().substring(j + 1, a));
+							if(currentUnit.equals("DEG")) {
+								lblResult.setText(Double.toString(Math.cos(num1)));
+							}
+							else if(currentUnit.equals("RAD")) {
+								lblResult.setText(Double.toString(Math.cos(Math.toRadians(num1))));
+							}
+							break;
+					}
+					i = 0;
+					num1 = 0;
+					num2 = 0;
+					currentOperator = " ";
+					count = 0;
+				}
+				catch(NumberFormatException e) {
+					System.out.println(e);
 				}
 				
-				switch(currentOperator) {
-					case "+":
-						lblResult.setText(Double.toString(num1 + num2));
-						break;
-					case "-":
-						lblResult.setText(Double.toString(num1 - num2));
-						break;
-					case "/":
-						lblResult.setText(Double.toString(num1 / num2));
-						break;
-					case "*":
-						lblResult.setText(Double.toString(num1 * num2));
-						break;
-					case "^":
-						lblResult.setText(Double.toString(Math.pow(num1, num2)));
-						break;
-					case "s":
-						int j = lblResult.getText().indexOf("(");
-						int a = lblResult.getText().indexOf(")");
-						num1 = Double.parseDouble(lblResult.getText().substring(j + 1, a));
-						lblResult.setText(Double.toString(Math.sqrt(num1)));
-						break;
-				}
-				i = 0;
-				num1 = 0;
-				num2 = 0;
-				currentOperator = " ";
-				count = 0;
 			}
 			
 		});
