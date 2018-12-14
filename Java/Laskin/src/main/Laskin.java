@@ -14,7 +14,7 @@ public class Laskin extends JFrame implements KeyListener{
 	public static String currentUnit = "DEG";
 	
 	// TODO: 
-	// Korjaa yksikkö nappi
+	// 
 	
 	JLabel lblResult = new JLabel("");
 	JButton btnUnit = new JButton("DEG");
@@ -28,6 +28,7 @@ public class Laskin extends JFrame implements KeyListener{
 	JButton btn7 = new JButton("7");
 	JButton btn8 = new JButton("8");
 	JButton btn9 = new JButton("9");
+	JButton btnPI = new JButton("PI");
 	JButton btnEquals = new JButton("=");
 	JButton btnDot = new JButton(".");
 	JButton btnClear = new JButton("AC");
@@ -40,6 +41,8 @@ public class Laskin extends JFrame implements KeyListener{
 	JButton btnSqrt = new JButton("sqrt");
 	JButton btnSin = new JButton("sin");
 	JButton btnCos = new JButton("cos");
+	JButton btnaSin = new JButton("arcsine");
+	JButton btnaCos = new JButton("arccosine");
 	JButton btnEmpty0 = new JButton(" ");
 	JButton btnEmpty1 = new JButton(" ");
 	
@@ -49,7 +52,7 @@ public class Laskin extends JFrame implements KeyListener{
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
 		//double num1, num2;
-		String[] operators = new String[8];
+		String[] operators = new String[10];
 		operators[0] = "+";
 		operators[1] = "-";
 		operators[2] = "/";
@@ -58,7 +61,9 @@ public class Laskin extends JFrame implements KeyListener{
 		operators[5] = "sqrt";
 		operators[6] = "sin";
 		operators[7] = "cos";
-		Dimension dim = new Dimension(75, 20);
+		operators[8] = "arcsine";
+		operators[9] = "arccosine";
+		Dimension dim = new Dimension(100, 20);
 		
 		ArrayList<JButton> buttons = new ArrayList<JButton>();
 		ArrayList<JButton> numButtons = new ArrayList<JButton>();
@@ -66,7 +71,7 @@ public class Laskin extends JFrame implements KeyListener{
 		
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		guiFrame.setTitle("Laskin");
-		guiFrame.setSize(300, 300);
+		guiFrame.setSize(350, 350);
 		guiFrame.setLayout(layout);
 		guiFrame.setVisible(true);
 		guiFrame.setResizable(false);
@@ -89,10 +94,6 @@ public class Laskin extends JFrame implements KeyListener{
 		opButtons.add(btnMult);
 		opButtons.add(btnDiv);
 		opButtons.add(btnPot);
-		//opButtons.add(btnSqrt);
-		opButtons.add(btnSin);
-		opButtons.add(btnCos);
-
 		
 		for(JButton btn : numButtons) {
 			buttons.add(btn);
@@ -107,6 +108,13 @@ public class Laskin extends JFrame implements KeyListener{
 		buttons.add(btnEmpty1);
 		buttons.add(btn0);
 		buttons.add(btnEquals);
+		buttons.add(btnSqrt);
+		buttons.add(btnSin);
+		buttons.add(btnCos);
+		buttons.add(btnaSin);
+		buttons.add(btnaCos);
+		buttons.add(btnPI);
+		
 		
 		
 		for(JButton btn : buttons) {
@@ -131,6 +139,10 @@ public class Laskin extends JFrame implements KeyListener{
 		gbc.gridy = 0;
 		panel.add(btnBack, gbc);
 		
+		gbc.gridx = 5;
+		gbc.gridy = 0;
+		panel.add(btnUnit, gbc);
+		
 		//-----------------------------------------------------------
 
 		gbc.gridx = 0;
@@ -152,6 +164,10 @@ public class Laskin extends JFrame implements KeyListener{
 		gbc.gridx = 4;
 		gbc.gridy = 1;
 		panel.add(btnPot, gbc);
+		
+		gbc.gridx = 5;
+		gbc.gridy = 1;
+		panel.add(btnPI, gbc);
 		
 		//-----------------------------------------------------------
 		
@@ -175,6 +191,10 @@ public class Laskin extends JFrame implements KeyListener{
 		gbc.gridy = 2;
 		panel.add(btnSqrt, gbc);
 		
+		gbc.gridx = 5;
+		gbc.gridy = 2;
+		panel.add(btnEmpty0, gbc);
+		
 		//-----------------------------------------------------------
 		
 		gbc.gridx = 0;
@@ -196,6 +216,10 @@ public class Laskin extends JFrame implements KeyListener{
 		gbc.gridx = 4;
 		gbc.gridy = 3;
 		panel.add(btnSin, gbc);
+		
+		gbc.gridx = 5;
+		gbc.gridy = 3;
+		panel.add(btnaSin, gbc);
 		
 		//-----------------------------------------------------------
 		
@@ -219,11 +243,11 @@ public class Laskin extends JFrame implements KeyListener{
 		gbc.gridy = 4;
 		panel.add(btnCos, gbc);
 		
-		//-----------------------------------------------------------
+		gbc.gridx = 5;
+		gbc.gridy = 4;
+		panel.add(btnaCos, gbc);
 		
-		gbc.gridx = 4;
-		gbc.gridy = 5;
-		panel.add(btnUnit, gbc);
+		//-----------------------------------------------------------
 				
 		
 		
@@ -285,6 +309,15 @@ public class Laskin extends JFrame implements KeyListener{
 			});
 		}
 		
+		btnPI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lblResult.setText(lblResult.getText() + Math.PI);
+			}
+			
+		});
+		
 		btnUnit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(currentUnit.equals("DEG")) {
@@ -343,6 +376,36 @@ public class Laskin extends JFrame implements KeyListener{
 			}
 		});
 		
+		btnaSin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for(String s : operators) {
+					if(lblResult.getText().indexOf(s) != -1) {
+						return;
+					}			
+				}
+				if(lblResult.getText().length() != 0) {
+					lblResult.setText("arcsine(" + lblResult.getText() + ")");
+					currentOperator = "arcsine";
+					count = 0;
+				}	
+			}
+		});
+		
+		btnaCos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for(String s : operators) {
+					if(lblResult.getText().indexOf(s) != -1) {
+						return;
+					}			
+				}
+				if(lblResult.getText().length() != 0) {
+					lblResult.setText("arccosine(" + lblResult.getText() + ")");
+					currentOperator = "arccosine";
+					count = 0;
+				}	
+			}
+		});
+		
 		btnDot.addActionListener(new ActionListener() {
 			
 			@Override
@@ -391,11 +454,11 @@ public class Laskin extends JFrame implements KeyListener{
 					}
 					
 					int i = lblResult.getText().indexOf(currentOperator);
-					if(currentOperator != "sqrt" ^ currentOperator != "sin" ^ currentOperator != "cos") {
+					if(currentOperator != "sqrt" ^ currentOperator != "sin" ^ currentOperator != "cos" ^ currentOperator != "arccosine" ^ currentOperator != "arcsine") {
 						num1 = Double.parseDouble(lblResult.getText().substring(0, i));
 						num2 = Double.parseDouble(lblResult.getText().substring(i + 1, lblResult.getText().length()));
 					}
-					System.out.println(currentUnit);
+
 					switch(currentOperator) {
 						case "+":
 							lblResult.setText(Double.toString(num1 + num2));
@@ -423,10 +486,10 @@ public class Laskin extends JFrame implements KeyListener{
 							a = lblResult.getText().indexOf(")");
 							num1 = Double.parseDouble(lblResult.getText().substring(j + 1, a));
 							if(currentUnit.equals("DEG")) {
-								lblResult.setText(Double.toString(Math.sin(num1)));
+								lblResult.setText(Double.toString(Math.sin(Math.toRadians(num1))));
 							}
 							else if(currentUnit.equals("RAD")) {
-								lblResult.setText(Double.toString(Math.sin(Math.toRadians(num1))));
+								lblResult.setText(Double.toString(Math.sin(num1)));
 							}
 								
 							break;
@@ -435,10 +498,33 @@ public class Laskin extends JFrame implements KeyListener{
 							a = lblResult.getText().indexOf(")");
 							num1 = Double.parseDouble(lblResult.getText().substring(j + 1, a));
 							if(currentUnit.equals("DEG")) {
-								lblResult.setText(Double.toString(Math.cos(num1)));
+								lblResult.setText(Double.toString(Math.cos(Math.toRadians(num1))));
 							}
 							else if(currentUnit.equals("RAD")) {
-								lblResult.setText(Double.toString(Math.cos(Math.toRadians(num1))));
+								lblResult.setText(Double.toString(Math.cos(num1)));
+							}
+							break;
+						case "arcsine":
+							j = lblResult.getText().indexOf("(");
+							a = lblResult.getText().indexOf(")");
+							num1 = Double.parseDouble(lblResult.getText().substring(j + 1, a));
+							if(currentUnit.equals("DEG")) {
+								lblResult.setText(Double.toString(Math.toDegrees(Math.asin(num1))));
+							}
+							else if(currentUnit.equals("RAD")) {
+								lblResult.setText(Double.toString(Math.asin(num1)));
+							}
+								
+							break;
+						case "arccosine":
+							j = lblResult.getText().indexOf("(");
+							a = lblResult.getText().indexOf(")");
+							num1 = Double.parseDouble(lblResult.getText().substring(j + 1, a));
+							if(currentUnit.equals("DEG")) {
+								lblResult.setText(Double.toString(Math.toDegrees(Math.acos(num1))));
+							}
+							else if(currentUnit.equals("RAD")) {
+								lblResult.setText(Double.toString(Math.acos(num1)));
 							}
 							break;
 					}
