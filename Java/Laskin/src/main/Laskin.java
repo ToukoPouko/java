@@ -11,6 +11,7 @@ public class Laskin extends JFrame implements KeyListener{
 	public static String currentOperator = " ";
 	public static double num1, num2;
 	public int count = 0;
+	public int minusCount = 0;
 	public static String currentUnit = "DEG";
 	
 	// TODO: 
@@ -32,6 +33,7 @@ public class Laskin extends JFrame implements KeyListener{
 	JButton btnEquals = new JButton("=");
 	JButton btnDot = new JButton(".");
 	JButton btnClear = new JButton("AC");
+	JButton btnChange = new JButton("+/-");
 	JButton btnPlus = new JButton("+");
 	JButton btnMinus = new JButton("-");
 	JButton btnDiv = new JButton("/");
@@ -43,8 +45,13 @@ public class Laskin extends JFrame implements KeyListener{
 	JButton btnCos = new JButton("cos");
 	JButton btnaSin = new JButton("arcsine");
 	JButton btnaCos = new JButton("arccosine");
+	JButton btnSquare = new JButton("^2");
 	JButton btnEmpty0 = new JButton(" ");
 	JButton btnEmpty1 = new JButton(" ");
+	
+	public static void check() {
+		
+	}
 	
 	public Laskin() {
 		JFrame guiFrame = new JFrame();
@@ -114,7 +121,9 @@ public class Laskin extends JFrame implements KeyListener{
 		buttons.add(btnaSin);
 		buttons.add(btnaCos);
 		buttons.add(btnPI);
-		
+		buttons.add(btnSquare);
+		buttons.add(btnChange);
+		buttons.add(btnMinus);
 		
 		
 		for(JButton btn : buttons) {
@@ -193,7 +202,7 @@ public class Laskin extends JFrame implements KeyListener{
 		
 		gbc.gridx = 5;
 		gbc.gridy = 2;
-		panel.add(btnEmpty0, gbc);
+		panel.add(btnSquare, gbc);
 		
 		//-----------------------------------------------------------
 		
@@ -293,10 +302,12 @@ public class Laskin extends JFrame implements KeyListener{
 				public void actionPerformed(ActionEvent arg0) {
 					for(String s : operators) {
 						if(lblResult.getText().indexOf(s) != -1) {
-							if(lblResult.getText().substring(lblResult.getText().indexOf(s) + 1) != "") {
-								//btnEquals.doClick();
+							if(!s.equals("-")) {
+								return;
 							}
-							return;
+							else if(s.equals("-")){
+								if(minusCount )
+							}
 						}			
 					}
 					if(lblResult.getText().length() != 0) {
@@ -308,6 +319,30 @@ public class Laskin extends JFrame implements KeyListener{
 				}
 			});
 		}
+		
+		/*btnMinus.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});*/
+		
+		btnSquare.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				for(String s : operators) {
+					if(lblResult.getText().indexOf(s) != -1) {
+						return;
+					}
+				}
+				
+				double i = Double.parseDouble(lblResult.getText());
+				lblResult.setText("" + i * i);
+				
+			}
+		});
+		
 		
 		btnPI.addActionListener(new ActionListener() {
 			
